@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chinese Character Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      margin: 0 10px;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      display: inline-block;
+    }
+
+    .nav-link:hover {
+      background-color: #555;
+      border-radius: 5px;
+    }
+
+    #character {
+      font-size: 100px;
+      margin-bottom: 20px;
+    }
+
+    .option {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 20px;
+      cursor: pointer;
+      border: 2px solid #333;
+      border-radius: 10px;
+      width: 250px;
+      background-color: white;
+    }
+
+    .correct {
+      background-color: #c8e6c9;
+      border-color: #2e7d32;
+    }
+
+    .wrong {
+      background-color: #ffcdd2;
+      border-color: #c62828;
+    }
+
+    #feedback {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+
+    #play-again-btn {
+      display: none;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+
+    #intro-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    #intro-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 500px;
+      text-align: left;
+    }
+
+    #intro-content h2 {
+      margin-top: 0;
+    }
+
+    #start-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <ul>
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="education.html">Education</a></li>
+        <li class="nav-item"><a class="nav-link" href="experience.html">Experience</a></li>
+        <li class="nav-item"><a class="nav-link" href="skills.html">Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="scratch.html">Scratch Sheet</a></li>
+        <!-- <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li> -->
+        <li class="nav-item"><a class="nav-link" href="game.html">Game</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Intro Modal -->
+  <div id="intro-modal">
+    <div id="intro-content">
+      <h2>安安！</h2>
+      <p>I speak Mandarin and I am very passionate about language learning! I thought it would be really cool to have a small game where you can practice reading important Chinese characters!</p>
+      <p>I chose 10 "survival" words that any traveler to China should know how to read. Replay the game as much as you want. I hope you enjoy!</p> <p>-Ryan Poulson 孙道望 </p>
+      <button id="start-btn">Start Game</button>
+    </div>
+  </div>
+
+  <!-- Game Area -->
+  <div id="character">你</div>
+  <div id="options"></div>
+  <div id="feedback"></div>
+  <button id="play-again-btn" onclick="startGame()">Play Again</button>
+
+  <script>
+    const originalCharacters = [
+      { character: '你', correct: 'You', options: ['You', 'Me', 'Exit'] },
+      { character: '我', correct: 'Me', options: ['Middle', 'You', 'Me'] },
+      { character: '中', correct: 'Middle', options: ['Car rental', 'Middle', 'Train Station'] },
+      { character: '出口', correct: 'Exit', options: ['Exit', 'Bathroom', 'Police'] },
+      { character: '厕所', correct: 'Bathroom', options: ['Restaurant', 'Bathroom', 'Airport'] },
+      { character: '飞机场', correct: 'Airport', options: ['Airport', 'You', 'Middle'] },
+      { character: '租车', correct: 'Car rental', options: ['Train Station', 'Car rental', 'Exit'] },
+      { character: '报警', correct: 'Police', options: ['Bathroom', 'Police', 'Me'] },
+      { character: '火车站', correct: 'Train Station', options: ['Train Station', 'Car rental', 'Airport'] },
+      { character: '饭店', correct: 'Restaurant', options: ['Middle', 'Exit', 'Restaurant'] }
+    ];
+
+    let characters = [];
+    let current = 0;
+
+    const charDiv = document.getElementById('character');
+    const optionsDiv = document.getElementById('options');
+    const feedbackDiv = document.getElementById('feedback');
+    const playAgainBtn = document.getElementById('play-again-btn');
+    const introModal = document.getElementById('intro-modal');
+    const startBtn = document.getElementById('start-btn');
+
+    startBtn.onclick = () => {
+      introModal.style.display = 'none';
+      startGame();
+    };
+
+    function startGame() {
+      characters = [...originalCharacters].sort(() => Math.random() - 0.5);
+      current = 0;
+      playAgainBtn.style.display = 'none';
+      showCharacter();
+    }
+
+    function showCharacter() {
+      const item = characters[current];
+      charDiv.textContent = item.character;
+      feedbackDiv.textContent = '';
+      optionsDiv.innerHTML = '';
+      item.options.sort(() => Math.random() - 0.5).forEach(option => {
+        const btn = document.createElement('button');
+        btn.textContent = option;
+        btn.className = 'option';
+        btn.onclick = () => handleAnswer(option, btn);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(answer, button) {
+      const correct = characters[current].correct;
+      if (answer === correct) {
+        button.classList.add('correct');
+        feedbackDiv.textContent = 'Correct!';
+        setTimeout(() => {
+          current++;
+          if (current < characters.length) {
+            showCharacter();
+          } else {
+            showFinalMessage();
+          }
+        }, 1000);
+      } else {
+        button.classList.add('wrong');
+        feedbackDiv.textContent = 'Try Again!';
+      }
+    }
+
+    function showFinalMessage() {
+      charDiv.textContent = '🎉';
+      optionsDiv.innerHTML = '';
+      feedbackDiv.textContent = 'Well done! You finished the game!';
+      playAgainBtn.style.display = 'inline-block';
+    }
+  </script>
+
+</body>
+</html>

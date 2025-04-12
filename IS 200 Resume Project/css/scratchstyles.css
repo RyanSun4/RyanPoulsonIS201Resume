@@ -1,0 +1,133 @@
+
+/* This page must be created from a blank HTML file.
+It can be about anything. Pick a hobby, or a passion, or something that fascinates you.
+It must include the following as a demonstration of your ability to write HTML and CSS:
+An unordered list embedded in an ordered list (or the other way around)
+At least one image not from the Bootstrap theme (feel free to have many more)
+An embedded YouTube video (we intentionally didn’t teach you this, so you would have to figure it out—good learning experience)
+An on-page anchor
+A custom background color or background image
+You also need to link to (and apply) a stylesheet that you have created from scratch. This stylesheet should include:
+At least four style definitions (it is possible you will have many more than four styles)
+Styles that specify font color
+Styles that specify font family
+At least three divs for positioning and styling blocks of content in the HTML page
+A live and interactive embedded Tableau graph (not just a picture of one).
+This graph can be about anything. It doesn’t have to be a graph you created, although it certainly can be.
+A quick Google search will show you where to find cool Tableau visualizations.
+Navigation back to the professional-looking pages.
+Your professional-looking pages do not need to link to the scratch page (but you will submit the URL to your scratch page). This way you can use the professional side for whatever you want without worrying someone might find this scratch page… 
+If you are a graduate student, you must also include a link on this scratch page to your extra page (see below). */
+
+
+/* Layout css */
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: red;
+    background-color: antiquewhite;
+
+}
+.common {
+    color: black;
+    border: 2pc;
+    position: absolute;
+
+}
+.header {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    height: 100px;
+    background-color: antiquewhite;
+    border-color: black;
+    border-width: 5px;
+    border-style: solid;
+    z-index: 1; }
+
+.imageheader {
+    top: 10px;
+    left: 5px;
+    height: 100px;
+    width: 100px;
+    z-index: 10;
+    background-color: chocolate;
+
+}
+
+ nav ul {
+    list-style: none;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    color: black;
+    padding: 10px;
+    
+   
+}
+
+.headernav {
+    padding: 10px;
+    color: black;
+}
+.rightbody {
+    top: 115px;
+    right: 5px;
+    width: 495px;
+    height: 827px;
+    padding-left: 5px;
+    background-color:rgb(187, 113, 113);
+    border-color: black;
+    border-width: 5px;
+    border-style: solid;
+
+}
+.leftbody {
+    top: 115px;
+    left: 5px;
+    width: 995px;
+    height: 827px;
+    padding-right: 5px;
+    background-color: blueviolet;
+    border-color: black;
+    border-width: 5px;
+    border-style: solid;
+}
+
+.footer {
+    top: 957px;
+    left: 5px;
+    right: 5px;
+    background-color: antiquewhite;
+    height: 60px;
+    border-color: black;
+    border-width: 5px;
+    border-style: solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+}
+/* Styling css */
+.headerstyle {
+    color: black;
+    font-size: 20px;
+    font-style: normal;
+    list-style: none;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    color: black;
+    padding: 10px;
+
+}
+.bold{
+ font-weight: bold;
+}
+.italicize{
+ font-style: italic;    
+}
